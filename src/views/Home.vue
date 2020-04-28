@@ -8,44 +8,50 @@
     >
       Create User
     </CButton>
-    <table class="Table">
-      <thead class="Header">
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Birth Date</th>
-          <th>Address</th>
-          <th>Country</th>
-          <th>Zip</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="{ id, name, email, birthDate, address } in users" :key="id">
-          <td>{{ id }}</td>
-          <td>{{ name }}</td>
-          <td>{{ email }}</td>
-          <td>{{ dateUpdated(birthDate) }}</td>
-          <td>
-            {{ address.street }} - {{ address.city }} ({{ address.state }})
-          </td>
-          <td>{{ address.country }}</td>
-          <td>{{ address.zip }}</td>
-          <td>
-            <CButton icon="edit" @click="editUser(id)">
-              Edit
-            </CButton>
-          </td>
-          <td>
-            <CButton icon="delete" @click="deleteUser(id)">
-              Delete
-            </CButton>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-if="users.length === 0">Loading...</div>
+    <div v-else>
+      <table class="Table">
+        <thead class="Header">
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Birth Date</th>
+            <th>Address</th>
+            <th>Country</th>
+            <th>Zip</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="{ id, name, email, birthDate, address } in users"
+            :key="id"
+          >
+            <td>{{ id }}</td>
+            <td>{{ name }}</td>
+            <td>{{ email }}</td>
+            <td>{{ dateUpdated(birthDate) }}</td>
+            <td>
+              {{ address.street }} - {{ address.city }} ({{ address.state }})
+            </td>
+            <td>{{ address.country }}</td>
+            <td>{{ address.zip }}</td>
+            <td>
+              <CButton icon="edit" @click="editUser(id)">
+                Edit
+              </CButton>
+            </td>
+            <td>
+              <CButton icon="delete" @click="deleteUser(id)">
+                Delete
+              </CButton>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -72,13 +78,11 @@ export default {
     dateUpdated(date) {
       return moment(date).format("D MMMM YYYY");
     },
-    getUsers() {
-      axios
+    async getUsers() {
+      await axios
         .get("https://cloudappi-database.web.app/api/users")
         .then(response => {
-          console.log(response);
           this.users = response.data.users;
-          console.log(this.users);
         })
         .catch(e => {
           this.errors.push(e);
