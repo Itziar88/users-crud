@@ -1,10 +1,13 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
+/* eslint-disable prettier/prettier */
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import Vuelidate from 'vuelidate'
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false
+Vue.use(Vuelidate)
 
 new Vue({
-  router,
-  render: h => h(App)
-}).$mount("#app");
+	router,
+	render: (h) => h(App),
+}).$mount('#app')
