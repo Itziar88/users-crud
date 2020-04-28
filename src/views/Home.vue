@@ -94,7 +94,7 @@ export default {
     deleteUser(id) {
       this.$emit("delete", id);
       axios
-        .delete(`hhttps://cloudappi-database.web.app/api/users/${id}`)
+        .delete(`https://cloudappi-database.web.app/api/users/${id}`)
         .then(this.getUsers())
         .catch(e => {
           this.errors.push(e);
